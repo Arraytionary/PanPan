@@ -1,0 +1,120 @@
+{
+    "name": "DefaultControl",
+    "maps": [
+        {
+            "name": "Gameplay",
+            "id": "08e9933d-c64b-4eee-9def-d4f928505ef9",
+            "actions": [
+                {
+                    "name": "rightInner",
+                    "type": "Button",
+                    "id": "83acfcfa-a172-469b-bb60-85906695b37e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "rightOuter",
+                    "type": "Button",
+                    "id": "09d29f2a-ac18-42e7-966c-1547fa7c0677",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "leftInner",
+                    "type": "Button",
+                    "id": "8d27961d-311a-4c47-8922-f3e7efc30610",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "leftOuter",
+                    "type": "Button",
+                    "id": "b343595c-7eba-4f8a-9229-f8ca43793272",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "DoubleInner",
+                    "type": "Button",
+                    "id": "f946c9fb-e657-41fe-9591-a3486c2500e8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c9ae5698-5b4e-4d8e-a1a2-d02a6b1c19bb",
+                    "path": "<Keyboard>/k",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "rightInner",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dbda89ae-ca20-4117-9a1f-ae42494d9c0d",
+                    "path": "<Keyboard>/l",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "rightOuter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "376f37fa-1d92-4f9d-94fe-c0ebd6f5722c",
+                    "path": "<Keyboard>/j",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "leftInner",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "27c04ba4-944d-411a-bac7-6e38e541cccb",
+                    "path": "<Keyboard>/h",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "leftOuter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0a688d17-93dc-4c5c-904e-5e674052bfc2",
+                    "path": "<Keyboard>/j",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DoubleInner",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0ab6981-c717-4cea-afa9-0045d4e9a4ff",
+                    "path": "<Keyboard>/k",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DoubleInner",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
