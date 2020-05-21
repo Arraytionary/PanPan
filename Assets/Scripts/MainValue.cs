@@ -6,7 +6,8 @@ public class MainValue : Singleton<MainValue>
 {
     public IDictionary<string, Vector3> CameraPostion = new Dictionary<string, Vector3>()
     {
-        { "mainGame", new Vector3(0,0,-10)}
+        { "mainGame", new Vector3(0,0,-10) },
+        { "mainMenu", new Vector3(-22, 0, -10) }
     };
     public IDictionary<string, float> FloatValue = new Dictionary<string, float>()
     {
@@ -14,4 +15,5 @@ public class MainValue : Singleton<MainValue>
         {"right", 0f }
     };
     public string selectedMenu = "all song";
+    public string crrScene = "mainGame";
 }
