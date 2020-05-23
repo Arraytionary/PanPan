@@ -7,6 +7,8 @@ using TMPro;
 
 public class SongListManager : MonoBehaviour
 {
+    DefaultControl inputAction;
+
     List<Song> songList;
 
     public SongHolder[] songs;
@@ -28,6 +30,17 @@ public class SongListManager : MonoBehaviour
     public float dspSongTime;
 
     AudioSource aS;
+
+    void Awake()
+    {
+        Debug.Log("Awake");
+        inputAction = new DefaultControl();
+        inputAction.Gameplay.rightInner.performed += ctx => Select();
+        inputAction.Gameplay.rightOuter.performed += ctx => GoLeft();
+        //inputAction.Gameplay.leftInner.performed += ctx => HitLI();
+        inputAction.Gameplay.leftOuter.performed += ctx => GoRight();
+        //inputAction.Gameplay.DoubleInner.performed += ctx => HitDI();
+    }
 
     void Start()
     {
@@ -101,6 +114,7 @@ public class SongListManager : MonoBehaviour
             //dspSongTime = (float)AudioSettings.dspTime;
             //aS.PlayOneShot(Resources.Load<AudioClip>(songs[center].song.fileName));
             //aS.volume = 0;
+            StopAllCoroutines();
             StartCoroutine(PlaySample(songs[center].song.fileName, songs[center].song.startAt));
             Vector3 pos = songs[rightEdge].transform.position;
 
@@ -127,11 +141,20 @@ public class SongListManager : MonoBehaviour
         }
     }
 
+    public void Select()
+    {
+        MainValue.Instance.mainClip = aS.clip;
+        MainValue.Instance.canDestroy = true;
+        MainValue.Instance.sceneToLoad = "MainGame";
+    }
+
     public void GoRight()
     {
+        Debug.Log("right");
         if (!isLock)
         {
             center = center - 1 >= 0 ? center - 1 : songs.Length - 1;
+            StopAllCoroutines();
             StartCoroutine(PlaySample(songs[center].song.fileName, songs[center].song.startAt));
             Vector3 pos = songs[leftEdge].transform.position;
 
@@ -160,6 +183,7 @@ public class SongListManager : MonoBehaviour
     IEnumerator PlaySample(string song, double startAt)
     {
         yield return new WaitForSeconds(0.1f);
+        MainValue.Instance.canDestroy = false;
         //stop what is currently playing
         aS.Stop();
         dspSongTime = (float)AudioSettings.dspTime;
@@ -170,5 +194,15 @@ public class SongListManager : MonoBehaviour
         //aS.PlayOneShot(Resources.Load<AudioClip>(song));
         aS.time = (float)startAt;
         aS.volume = 0;
+    }
+
+    private void OnEnable()
+    {
+        inputAction.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputAction.Disable();
     }
 }

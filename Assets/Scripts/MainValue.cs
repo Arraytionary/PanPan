@@ -14,6 +14,17 @@ public class MainValue : Singleton<MainValue>
         { "left", 0f},
         {"right", 0f }
     };
+    public IDictionary<string, Object> SongListValue = new Dictionary<string, Object>()
+    {
+    };
+    public IDictionary<string, int> SceneIndex = new Dictionary<string, int>()
+    {
+        { "SongList", 0},
+        {"MainGame", 1}
+    };
     public string selectedMenu = "all song";
     public string crrScene = "mainGame";
+    public AudioClip mainClip;
+    public bool canDestroy;
+    public string sceneToLoad = "";
 }
