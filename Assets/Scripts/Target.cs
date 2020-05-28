@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Target : MonoBehaviour
 {
+    public ActionProcesser ap;
+    public bool end;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +19,7 @@ public class Target : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(end) ap.ReportMiss();
         Destroy(collision.gameObject);
     }
 }

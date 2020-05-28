@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class ActionProcesser : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class ActionProcesser : MonoBehaviour
     public Animator animatorRO;
     public Animator animatorLI;
     public Animator animatorLO;
+
+    public Animator hitAccuracy;
+    public GameObject hitParticle; 
 
     GameObject note;
 
@@ -32,15 +36,23 @@ public class ActionProcesser : MonoBehaviour
 
     Utility.Projectile projectile;
     public GameObject target;
+
+    AudioSource audioSource;
+    public AudioClip center;
+    public AudioClip rim;
+
+    public GameObject hitText;
+    
     // Start is called before the first frame update
     void Awake()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
         inputAction = new DefaultControl();
         inputAction.Gameplay.rightInner.performed += ctx => HitRI();
         inputAction.Gameplay.rightOuter.performed += ctx => HitRO();
         inputAction.Gameplay.leftInner.performed += ctx => HitLI();
         inputAction.Gameplay.leftOuter.performed += ctx => HitLO();
-        inputAction.Gameplay.DoubleInner.performed += ctx => HitDI();
+        //inputAction.Gameplay.DoubleInner.performed += ctx => HitQuality(note.GetComponent<Note>().collideTime);
 
         lI = false;
         lO = false;
@@ -55,6 +67,7 @@ public class ActionProcesser : MonoBehaviour
         entered = true;
         if(collision.gameObject.layer == 9)
         {
+            collision.gameObject.GetComponent<Note>().StampTime();
             note = collision.gameObject;
         }
     }
@@ -75,26 +88,48 @@ public class ActionProcesser : MonoBehaviour
 
     // Update is called once per frame
 
-    public void HitDI()
+    public void HitQuality(float time)
     {
-        Debug.Log("success");
+        //goodHit
+        if (Time.time - time <= MainValue.Instance.crrSecPerBeat / 3)
+        {
+            hitText.GetComponent<TextMeshPro>().text = "GOOD";
+            hitText.GetComponent<Animator>().SetTrigger("good");
+        }
+        else {
+            hitText.GetComponent<TextMeshPro>().text = "OK";
+            hitText.GetComponent<Animator>().SetTrigger("ok");
+        }
+        hitAccuracy.SetTrigger("Good");
+        Instantiate(hitParticle, hitAccuracy.transform.position, Quaternion.identity);
+    }
+
+    public void ReportMiss()
+    {
+        hitText.GetComponent<TextMeshPro>().text = "BAD";
+        hitText.GetComponent<Animator>().SetTrigger("bad");
     }
     public void HitRI()
     {
+
+        audioSource.PlayOneShot(center);
         //animator.SetTrigger("pressed");
         PlayAnim(animatorRI);
         lastRI = Time.time;
         if (entered && note.GetComponent<Note>().type.Equals("0"))
         {
+            HitQuality(note.GetComponent<Note>().collideTime);
             //note.GetComponent<Note>().Decrease();
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("2") && Time.time - lastLI <= allowDuration)
         {
+            HitQuality(note.GetComponent<Note>().collideTime);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("4") || entered && note.GetComponent<Note>().type.Equals("5") || entered && note.GetComponent<Note>().type.Equals("6"))
         {
+            HitQuality(note.GetComponent<Note>().collideTime);
             projectile.Throw(note.transform, note);
         }
         //Debug.Log("right inner");
@@ -105,15 +140,19 @@ public class ActionProcesser : MonoBehaviour
 
     public void HitRO()
     {
+
+        audioSource.PlayOneShot(rim);
         PlayAnim(animatorRO);
         lastRO = Time.time;
         if (entered && note.GetComponent<Note>().type.Equals("1"))
         {
             //note.GetComponent<Note>().Decrease();
+            HitQuality(note.GetComponent<Note>().collideTime);
             projectile.Throw(note.transform, note);
         }
         if (entered && note.GetComponent<Note>().type.Equals("3") && Time.time - lastLO <= allowDuration)
         {
+            HitQuality(note.GetComponent<Note>().collideTime);
             projectile.Throw(note.transform, note);
         }
         //Debug.Log("right outer");
@@ -121,6 +160,8 @@ public class ActionProcesser : MonoBehaviour
 
     public void HitLI()
     {
+  
+        audioSource.PlayOneShot(center);
         PlayAnim(animatorLI);
         lastLI = Time.time;
         if (entered && note.GetComponent<Note>().type.Equals("0"))
@@ -137,6 +178,8 @@ public class ActionProcesser : MonoBehaviour
 
     public void HitLO()
     {
+
+        audioSource.PlayOneShot(rim);
         PlayAnim(animatorLO);
         lastLO = Time.time;
         if (entered && note.GetComponent<Note>().type.Equals("1"))

@@ -7,7 +7,7 @@ public class Note : MonoBehaviour
     SpriteRenderer sr;
     public string type;
     Rigidbody2D rb;
-    public float health;
+    public float collideTime;
     public float dec;
     public Sprite image;
     public float velocity;
@@ -27,9 +27,9 @@ public class Note : MonoBehaviour
         //Physics2D.IgnoreLayerCollision(9, 9);
         rb.velocity = new Vector2(-velocity, 0f);
     }
-    public void Decrease()
+    public void StampTime()
     {
-        health -= dec;
+        collideTime = Time.time;
     }
     // Update is called once per frame
     void Update()

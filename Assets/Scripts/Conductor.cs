@@ -20,6 +20,8 @@ public class Conductor : MonoBehaviour
     //How many seconds have passed since the song started
     public float dspSongTime;
 
+    public float startOffset;
+
     public float offset;
 
     float lastPos;
@@ -34,9 +36,16 @@ public class Conductor : MonoBehaviour
 
     bool spawned;
 
+    //int[,] sample;
     int[] sample;
 
     int idx;
+
+    int id2;
+
+    //
+    float toto = 0.5f;
+    //
 
     //distance btween spawner and register 
     public float distance;
@@ -52,24 +61,36 @@ public class Conductor : MonoBehaviour
 
         //Calculate the number of seconds in each beat
         secPerBeat = 60f / songBpm;
+        MainValue.Instance.crrSecPerBeat = secPerBeat;
 
         //Record the time when the music starts
         dspSongTime = (float)AudioSettings.dspTime;
 
-        musicSource.clip = MainValue.Instance.mainClip;
+        //load music clip from MainValue
+        //musicSource.clip = MainValue.Instance.mainClip;
 
         //Start the music
         musicSource.Play();
 
-        lastPos = -4f;
+        lastPos = -offset;
 
-        lp2 = -9f;
+        lp2 = -2*offset;
 
         spawned = false;
 
-        sample = new int[] { 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6 };
+        //sample = new int[,] { { 0,0}, { 1,0}, { 1,0}, { 1,2}, { 1,0} };
+        sample = new int[] { -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+        0,-1,-1,0,-1,-1,0,-1,-1,0,-1,-1,0,0,-1,-1,0,-1,0,-1,0,1,0,1,0,1,-1,1,-1,1,0,-1,-1,-1,-1,-1
+        ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+        ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+        ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+        ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+        ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+        ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1
+        ,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
 
         distance = Mathf.Abs(register.transform.position.x - spawner.gameObject.transform.position.x);
+        Debug.Log(distance);
 
     }
 
@@ -77,33 +98,38 @@ public class Conductor : MonoBehaviour
     void Update()
     {
         //determine how many seconds since the song started
-        songPosition = (float)(AudioSettings.dspTime - dspSongTime);
+        songPosition = (float)(AudioSettings.dspTime - dspSongTime - startOffset);
 
         //determine how many beats since the song started
-        songPositionInBeats = (int)(songPosition / secPerBeat) - offset;
-        if (songPositionInBeats % 4 == 0 && songPositionInBeats - lp2 > 0)
+        //songPositionInBeats = (songPosition / secPerBeat) - offset;
+        songPositionInBeats = (songPosition / secPerBeat);
+        //if ((int)songPositionInBeats % 4 == 0 && (int)songPositionInBeats - lp2 > 1)
+        //{
+        //    spawner.SpawnNorm();
+        //    lp2 = songPositionInBeats;
+        //    //spawner.SpawnNote();
+        //}
+        if (songPositionInBeats >= -offset)
         {
-            spawner.SpawnNorm();
-            lp2 = songPositionInBeats;
-            //spawner.SpawnNote();
-        }
-        if (songPositionInBeats >= -3)
-        {
-            if (songPositionInBeats - lastPos > 0)
+            if (songPositionInBeats - lastPos > toto)
             {
-
+                if(idx%8 == 0) spawner.SpawnNorm();
                 //lastPos = songPositionInBeats;
 
                 //else
                 //{
-
-                    spawner.SpawnNote();
+                if (sample[idx] != -1)
+                {
+                    spawner.SpawnNote(sample[idx]);
+                }
+                idx++;
 
                 //}
 
                 db += 1;
+                lastPos = songPositionInBeats;
             }
-            lastPos = songPositionInBeats;
+            
         }
     }
     public float GetVelocity()

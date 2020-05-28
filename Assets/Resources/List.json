@@ -12,7 +12,7 @@
 {
 	"songName": "Seven Nation Army",
 	"fileName": "125-The White Stripes - 'Seven Nation Army'",
-	"bpm": 106,
+	"bpm": 125,
 	"genre": "",
 	"artist":"",
 	"duration": 20,
@@ -28,13 +28,14 @@
 	"startAt": 0
 },
 {
-	"songName": "Step!",
-	"fileName": "(106)Mio Honda - Step! [4k]",
-	"bpm": 106,
+	"songName": "Cruel Angel Thesis",
+	"fileName": "Neon Genesis Evangelion Soundtrack - A Cruel Angel's Thesis - Yoko Takahashi",
+	"bpm": 128,
 	"genre": "",
 	"artist":"",
 	"duration": 20,
-	"startAt": 0
+	"startAt": 0,
+	"note": 
 },{
 	"songName": "Step!",
 	"fileName": "(106)Mio Honda - Step! [4k]",

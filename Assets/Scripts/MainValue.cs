@@ -27,4 +27,5 @@ public class MainValue : Singleton<MainValue>
     public AudioClip mainClip;
     public bool canDestroy;
     public string sceneToLoad = "";
+    public float crrSecPerBeat = 0f;
 }

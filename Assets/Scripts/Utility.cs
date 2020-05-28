@@ -19,7 +19,6 @@ public class Utility : MonoBehaviour
         }
         public void Throw(Transform thr, GameObject ob)
         {
-            Debug.Log(ob.GetComponent<Note>().text);
             throwingPoint = thr;
             obj = ob;
 

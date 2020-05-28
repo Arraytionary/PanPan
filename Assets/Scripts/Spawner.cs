@@ -27,7 +27,20 @@ public class Spawner : MonoBehaviour
         //yield return new WaitForSeconds(2);
         //StartCoroutine(SpawnNorm());
     }
-    public void SpawnNote()
+    public void SpawnNote(int idx)
+    {
+        //int idx = Random.Range(0, 4);
+        //Debug.Log(idx);
+        GameObject n = notes[idx];
+        //may have to change this to singleton
+        n.GetComponent<Note>().velocity = cd.GetVelocity();
+        //n.GetComponent<Note>().velocity = 2f;
+        Instantiate(n, transform.position, Quaternion.identity);
+        //yield return new WaitForSeconds(0.5f);
+        //StartCoroutine(SpawnNote());
+    }
+
+    public void SpawnNotek()
     {
         int idx = Random.Range(0, 4);
         //Debug.Log(idx);
