@@ -8,14 +8,14 @@ public class ActionProcesser : MonoBehaviour
 {
     //Input action
     DefaultControl inputAction;
-    string debug;
+
     public Animator animatorRI;
     public Animator animatorRO;
     public Animator animatorLI;
     public Animator animatorLO;
 
     public Animator hitAccuracy;
-    public GameObject hitParticle; 
+    public GameObject[] hitParticles; 
 
     GameObject note;
 
@@ -42,7 +42,8 @@ public class ActionProcesser : MonoBehaviour
     public AudioClip rim;
 
     public GameObject hitText;
-    
+
+    public ScoringSystem scoringSystem;
     // Start is called before the first frame update
     void Awake()
     {
@@ -95,19 +96,25 @@ public class ActionProcesser : MonoBehaviour
         {
             hitText.GetComponent<TextMeshPro>().text = "GOOD";
             hitText.GetComponent<Animator>().SetTrigger("good");
+            hitAccuracy.SetTrigger("Good");
+            Instantiate(hitParticles[0], hitAccuracy.transform.position, Quaternion.identity);
+            scoringSystem.SubmitScore(1f);
         }
         else {
             hitText.GetComponent<TextMeshPro>().text = "OK";
             hitText.GetComponent<Animator>().SetTrigger("ok");
+            hitAccuracy.SetTrigger("Ok");
+            Instantiate(hitParticles[1], hitAccuracy.transform.position, Quaternion.identity);
+            scoringSystem.SubmitScore(0.5f);
         }
-        hitAccuracy.SetTrigger("Good");
-        Instantiate(hitParticle, hitAccuracy.transform.position, Quaternion.identity);
+        
     }
 
     public void ReportMiss()
     {
         hitText.GetComponent<TextMeshPro>().text = "BAD";
         hitText.GetComponent<Animator>().SetTrigger("bad");
+        scoringSystem.SubmitScore(-1f);
     }
     public void HitRI()
     {

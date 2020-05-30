@@ -2,24 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Target : MonoBehaviour
+public class Border : MonoBehaviour
 {
-    public ActionProcesser ap;
-    public bool end;
     // Start is called before the first frame update
+    public ActionProcesser ap;
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(end) ap.ReportMiss();
+        ap.ReportMiss();
         Destroy(collision.gameObject);
     }
 }
