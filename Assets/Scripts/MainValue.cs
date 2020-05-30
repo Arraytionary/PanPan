@@ -28,4 +28,7 @@ public class MainValue : Singleton<MainValue>
     public bool canDestroy;
     public string sceneToLoad = "";
     public float crrSecPerBeat = 0f;
+    public int combo;
+    public int score;
+    public Song mainSong;
 }

@@ -9,7 +9,8 @@ public class ScoringSystem : MonoBehaviour
     public int number;
     public Color color1;
     public Color color2;
-    float combo;
+    public ParticleSystem particle;
+    int combo;
     int score;
     float barProgress;
     // Start is called before the first frame update
@@ -60,7 +61,23 @@ public class ScoringSystem : MonoBehaviour
         else
         {
             combo++;
-            barProgress += score;
+            MainValue.Instance.score += (int)(2 * combo * score);
+            float newProgress = Mathf.Min(barProgress + score, number - 1);
+            if (barProgress + score - (int)(barProgress) >= 1)
+            {
+                //spawn spark effect on pill
+                ParticleSystem spark = particle;
+                ParticleSystem.MainModule sparkSettings = spark.main;
+                sparkSettings.startColor = new ParticleSystem.MinMaxGradient(bar[(int)newProgress].baseColor);
+                Instantiate(spark, 
+                    new Vector3(bar[(int)newProgress].transform.position.x + bar[(int)newProgress].gameObject.GetComponent<SpriteRenderer>().bounds.size.x/2, 
+                    bar[(int)newProgress].transform.position.y, 
+                    bar[(int)newProgress].transform.position.z), 
+                    Quaternion.identity);
+
+            }
+            barProgress = newProgress;
         }
+        MainValue.Instance.combo = combo;
     }
 }

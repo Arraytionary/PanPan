@@ -7,4 +7,5 @@
     public string artist;
     public float duration;
     public double startAt;
+    public int[] note;
 }

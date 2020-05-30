@@ -144,6 +144,7 @@ public class SongListManager : MonoBehaviour
     public void Select()
     {
         MainValue.Instance.mainClip = aS.clip;
+        MainValue.Instance.mainSong = songs[center].song;
         MainValue.Instance.canDestroy = true;
         MainValue.Instance.sceneToLoad = "MainGame";
     }
